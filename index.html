@@ -339,6 +339,16 @@
           wrapper.querySelector(".at-song-title").innerText = score.title;
           wrapper.querySelector(".at-song-artist").innerText = score.artist;
           trackList.innerHTML = "";
+              // Add an "All Tracks" option
+          const allTracksEl = document
+            .querySelector("#at-track-template")
+            .content.cloneNode(true).firstElementChild;
+          allTracksEl.querySelector(".at-track-name").innerText = "All Tracks";
+          allTracksEl.onclick = () => {
+            api.renderTracks(score.tracks); // Render ALL tracks
+          };
+          trackList.appendChild(allTracksEl);
+
           score.tracks.forEach((track) => {
             const el = document
               .querySelector("#at-track-template")
