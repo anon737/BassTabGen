@@ -319,7 +319,7 @@
     </template>
 
     <script>
-      const BASE_URL = "gp5/";
+      const BASE_URL = "merged_gp5/";
       const selector = document.getElementById("song-selector");
       for (let i = 0; i <= 2300; i++) {
         const opt = document.createElement("option");
@@ -417,9 +417,7 @@
       }
 
       function loadFiles(id) {
-        const bass = `${BASE_URL}/${id}_generated_bass.tokens.gp5`;
-        const rg = `${BASE_URL}/${id}_generated_rg.tokens.rhythm_guitar.gp5`;
-        const files = bass;
+        const bass = `${BASE_URL}/merged_${id}.gp5`;
 
         if (!api) {
           api = new alphaTab.AlphaTabApi(main, {
