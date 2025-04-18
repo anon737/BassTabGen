@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guitar Tab Viewer</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/alphaTab.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Guitar Tab Viewer</h1>
+    <div class="controls">
+      <label for="fileId">Select Song ID:</label>
+      <select id="fileId"></select>
+
+      <label for="partType">Instrument:</label>
+      <select id="partType">
+        <option value="bass">Bass</option>
+        <option value="rhythm_guitar">Rhythm Guitar</option>
+      </select>
+    </div>
+
+    <div class="alphaTab" id="alphaTab"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
