@@ -1,6 +1,4 @@
-// List your file IDs here (e.g. '001', '002', ...)
-let fileIds = Array.from(Array(2300).keys());
-fileIds = fileIds.map(String);
+let fileIds = Array.from(Array(2300).keys()).map(String);
 
 const fileIdSelect = document.getElementById('fileId');
 const partTypeSelect = document.getElementById('partType');
@@ -14,76 +12,67 @@ fileIds.forEach(id => {
   fileIdSelect.appendChild(option);
 });
 
-// Init AlphaTab
+// Initialize AlphaTab API
 const alphaTabInstance = new alphaTab.AlphaTabApi(alphaTabContainer, {
   file: null,
   player: {
     enablePlayer: true,
-    enableCursor: true,
-    enableUserInteraction: true
+    soundFont: 'https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/soundfont/sonivox.sf2',
+    scrollElement: alphaTabContainer.querySelector('.at-viewport')
   }
 });
 
+// Load selected tab
 function loadTab() {
   const id = fileIdSelect.value;
   const part = partTypeSelect.value;
-  const filename =
-    part === 'bass'
-      ? `${id}_generated_bass.tokens.gp5`
-      : `${id}_generated_rg.tokens.rhythm_guitar.gp5`;
+  const filename = part === 'bass'
+    ? `${id}_generated_bass.tokens.gp5`
+    : `${id}_generated_rg.tokens.rhythm_guitar.gp5`;
 
   alphaTabInstance.load(`gp5/${filename}`);
 }
 
-// Events
+// Event listeners for dropdowns
 fileIdSelect.addEventListener('change', loadTab);
 partTypeSelect.addEventListener('change', loadTab);
 
 // Load default on startup
 window.addEventListener('DOMContentLoaded', loadTab);
 
-// Playback controls and event listeners
-const playbackControls = {
-  playPauseButton: document.getElementById('playPauseButton'),
-  stopButton: document.getElementById('stopButton'),
-  currentTimeDisplay: document.getElementById('currentTime')
-};
+// Playback controls
+const playPauseButton = document.getElementById('playPauseButton');
+const stopButton = document.getElementById('stopButton');
+const currentTimeDisplay = document.getElementById('currentTime');
 
 // Play/Pause functionality
-if (playbackControls.playPauseButton) {
-  playbackControls.playPauseButton.addEventListener('click', () => {
-    if (alphaTabInstance.isPlaying()) {
-      alphaTabInstance.pause();
-    } else {
-      alphaTabInstance.play();
-    }
-  });
-}
+playPauseButton.addEventListener('click', () => {
+  if (alphaTabInstance.isPlaying()) {
+    alphaTabInstance.pause();
+  } else {
+    alphaTabInstance.play();
+  }
+});
 
 // Stop functionality
-if (playbackControls.stopButton) {
-  playbackControls.stopButton.addEventListener('click', () => {
-    alphaTabInstance.stop();
-  });
-}
-
-// Listen to playback events
-alphaTabInstance.on('playbackStarted', () => {
-  console.log('Playback started');
+stopButton.addEventListener('click', () => {
+  alphaTabInstance.stop();
 });
 
-alphaTabInstance.on('playbackPaused', () => {
-  console.log('Playback paused');
-});
-
-alphaTabInstance.on('playbackStopped', () => {
-  console.log('Playback stopped');
-});
-
-// Listen to cursor movement
-alphaTabInstance.on('cursorMoved', (position) => {
-  console.log(`Cursor moved to: ${position.time}`);
-  if (playbackControls.currentTimeDisplay) {
-    playbackControls.currentTimeDisplay.textContent = `Current time: ${position.time}`;
+// Update UI based on player state
+alphaTabInstance.playerStateChanged.on((args) => {
+  if (args.state === alphaTab.synth.PlayerState.Playing) {
+    playPauseButton.textContent = 'Pause';
+    stopButton.disabled = false;
+  } else {
+    playPauseButton.textContent = 'Play';
+    stopButton.disabled = true;
   }
+});
+
+// Update current time display
+alphaTabInstance.playerPositionChanged.on((args) => {
+  const minutes = Math.floor(args.position / 60);
+  const seconds = Math.floor(args.position % 60);
+  currentTimeDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 });
