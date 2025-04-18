@@ -200,7 +200,7 @@
       function loadFiles(id) {
         const bass = `${BASE_URL}/${id}_generated_bass.tokens.gp5`;
         const rg = `${BASE_URL}/${id}_generated_rg.tokens.rhythm_guitar.gp5`;
-        const files = [bass, rg];
+        const files = bass;
 
         if (!api) {
           api = new alphaTab.AlphaTabApi(main, {
