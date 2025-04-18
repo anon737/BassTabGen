@@ -1,5 +1,6 @@
 // List your file IDs here (e.g. '001', '002', ...)
-const fileIds = Array.from({ length: 2300 }, (_, i) => i.toString());
+let fileIds = Array.from(Array(2300).keys());
+fileIds = fileIds.map(String);
 
 const fileIdSelect = document.getElementById('fileId');
 const partTypeSelect = document.getElementById('partType');
