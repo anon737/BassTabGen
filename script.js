@@ -42,3 +42,48 @@ partTypeSelect.addEventListener('change', loadTab);
 // Load default on startup
 window.addEventListener('DOMContentLoaded', loadTab);
 
+// Playback controls and event listeners
+const playbackControls = {
+  playPauseButton: document.getElementById('playPauseButton'),
+  stopButton: document.getElementById('stopButton'),
+  currentTimeDisplay: document.getElementById('currentTime')
+};
+
+// Play/Pause functionality
+if (playbackControls.playPauseButton) {
+  playbackControls.playPauseButton.addEventListener('click', () => {
+    if (alphaTabInstance.isPlaying()) {
+      alphaTabInstance.pause();
+    } else {
+      alphaTabInstance.play();
+    }
+  });
+}
+
+// Stop functionality
+if (playbackControls.stopButton) {
+  playbackControls.stopButton.addEventListener('click', () => {
+    alphaTabInstance.stop();
+  });
+}
+
+// Listen to playback events
+alphaTabInstance.on('playbackStarted', () => {
+  console.log('Playback started');
+});
+
+alphaTabInstance.on('playbackPaused', () => {
+  console.log('Playback paused');
+});
+
+alphaTabInstance.on('playbackStopped', () => {
+  console.log('Playback stopped');
+});
+
+// Listen to cursor movement
+alphaTabInstance.on('cursorMoved', (position) => {
+  console.log(`Cursor moved to: ${position.time}`);
+  if (playbackControls.currentTimeDisplay) {
+    playbackControls.currentTimeDisplay.textContent = `Current time: ${position.time}`;
+  }
+});
