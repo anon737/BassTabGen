@@ -15,7 +15,7 @@ fileIds.forEach(id => {
 });
 
 // Init AlphaTab
-const alphaTab = new alphaTab.AlphaTabApi(alphaTabContainer, {
+const alphaTabInstance = new alphaTab.AlphaTabApi(alphaTabContainer, {
   file: null,
   player: {
     enablePlayer: true,
@@ -32,7 +32,7 @@ function loadTab() {
       ? `${id}_generated_bass.tokens.gp5`
       : `${id}_generated_rg.tokens.rhythm_guitar.gp5`;
 
-  alphaTab.load(`gp5/${filename}`);
+  alphaTabInstance.load(`gp5/${filename}`);
 }
 
 // Events
