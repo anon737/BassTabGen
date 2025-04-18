@@ -359,6 +359,9 @@
               api.renderTracks([track]);
             };
             trackList.appendChild(el);
+
+          // Render ALL tracks by default when loaded
+          api.renderTracks(score.tracks);
           });
         });
 
@@ -431,7 +434,7 @@
 
         if (!api) {
           api = new alphaTab.AlphaTabApi(main, {
-            file: files,
+            file: bass,
             player: {
               enablePlayer: true,
               soundFont: "https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/soundfont/sonivox.sf2",
@@ -440,7 +443,7 @@
           });
           setupEvents();
         } else {
-          api.load(files);
+          api.load(bass);
         }
       }
 
